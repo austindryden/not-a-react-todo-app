@@ -6,7 +6,8 @@ class App extends React.Component {
     super(props);
     this.state = {
       text: '',
-      items: []
+      items: [],
+      completed:[]
     };
   }
   render() {
@@ -21,7 +22,15 @@ class App extends React.Component {
         </form>
         <div>
           <ul>
-              {this.state.items.map((words, index)=>(<li>{words}</li>))}
+              {this.state.items.map((words, index)=>{
+                return(
+                  <li><input type="checkbox" value={this.state.completed[index]} onClick={() => (this._checkbox(index))} ></input>
+                  {words}
+                  {/* <button onClick={(index) => this._removeItem(index)}>delete</button> */}
+                  {this._deleteButton(index)}
+                  </li>
+                )
+              })}
           </ul>
           </div>
       </div>
@@ -29,21 +38,53 @@ class App extends React.Component {
   }
 
   _handleSubmit = (event) => {
-    event.preventDefault();
+    event.preventDefault();    
     console.log('You just submitted');
-    let newArr = this.state.items;
-    newArr.push(this.state.text);
+    let newItems = [...this.state.items];
+    let newCompleted = [...this.state.completed];
+    newCompleted.push(false);
+    newItems.push(this.state.text);
     this.setState({
-      items:newArr,
+      items:newItems,
+      completed:newCompleted,
       text:''
     })
-    console.log(this.state.items);
+  
   }
 
   _updateText = (event) => {
     console.log(event.target.value);
+    console.log(event.target);
     this.setState({
       text: event.target.value
+    })
+  }
+
+  _checkbox = (index)=>{
+    let newCompleted = [...this.state.completed];
+    newCompleted[index] = !newCompleted[index];
+    console.log(newCompleted[index]);
+    this.setState({
+      completed:newCompleted
+    })
+  }
+
+  _deleteButton = (index) =>{
+    console.log(this.state.completed[index]);
+    if(this.state.completed[index]){
+      return <button onClick={(index) => this._removeItem(index)}>delete</button>
+    }
+    return '';
+  }
+
+  _removeItem = (index) => {
+    let newItems = [...this.state.items];
+    let newCompleted = [...this.state.completed];
+    newItems.splice(index, 1);
+    newCompleted.splice(index, 1);
+    this.setState({
+        items:newItems,
+        completed:newCompleted
     })
   }
 }
