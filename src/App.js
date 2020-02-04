@@ -9,6 +9,7 @@ class App extends React.Component {
       items: [],
       completed:[]
     };
+
   }
   render() {
     return (
@@ -24,9 +25,8 @@ class App extends React.Component {
           <ul>
               {this.state.items.map((words, index)=>{
                 return(
-                  <li><input type="checkbox" value={this.state.completed[index]} onClick={() => (this._checkbox(index))} ></input>
+                  <li><input type="checkbox" checked={this.state.completed[index] ? "checked" : ""} onClick={() => (this._checkbox(index))} ></input>
                   {words}
-                  {/* <button onClick={(index) => this._removeItem(index)}>delete</button> */}
                   {this._deleteButton(index)}
                   </li>
                 )
