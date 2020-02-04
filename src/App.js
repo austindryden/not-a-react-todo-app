@@ -70,9 +70,8 @@ class App extends React.Component {
   }
 
   _deleteButton = (index) =>{
-    console.log(this.state.completed[index]);
     if(this.state.completed[index]){
-      return <button onClick={(index) => this._removeItem(index)}>delete</button>
+      return <button onClick={() => this._removeItem(index)}>delete</button>
     }
     return '';
   }
